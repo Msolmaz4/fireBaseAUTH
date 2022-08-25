@@ -22,6 +22,17 @@ const createUser =(email,password)=>{
 }
 
 
+//bunu ensonYaptik bu kazitli kulanici girmesi icin 
+//kayitli kisisnin girisi icin
+const signIn = (email,password)=>{
+   return signInWithEmailAndPassword(auth,email,password)
+
+
+
+}
+
+
+
 const logout = ()=>{
     return signOut(auth)
 }
@@ -49,7 +60,7 @@ useEffect(()=>{
 
 
     return(
-        <UserContext.Provider value={{createUser,user,logout }}>
+        <UserContext.Provider value={{createUser,user,logout,signIn}}>
         {children}
         </UserContext.Provider>
     )

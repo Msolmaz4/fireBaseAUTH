@@ -1,3 +1,4 @@
+
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import { UserAuth } from '../context/AuthContext'
@@ -6,13 +7,17 @@ const Kullan = () => {
 
  const {user,logout} =UserAuth()
 
- const navo= useNavigate()
+ const navigate= useNavigate()
 
- const handel = ()=>{
-    logout()
-    navo('/')
-   
- }
+ const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+      console.log('You are logged out')
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
 
   return (
@@ -22,7 +27,7 @@ const Kullan = () => {
 
    <p>email {user && user.email}</p>
 
-   <button onclick={handel}>Logout</button>
+   <button onClick={handleLogout} >Logout</button>
 
 
     </div>
