@@ -1,4 +1,4 @@
-import { createContext ,useContext} from "react"
+import { createContext ,useContext, useEffect, useState} from "react"
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -12,13 +12,44 @@ import { auth } from "../firebase"
 const UserContext = createContext()
 
 export  const AuthContextProvider = ({children}) =>{
+//burada obje atariz cunku obje donnecek bize
+const [user,setUser] =useState({})
+
+
 //burada kullanici olusturuyoruz
 const createUser =(email,password)=>{
     return createUserWithEmailAndPassword(auth,email,password)
 }
 
+
+const logout = ()=>{
+    return signOut(auth)
+}
+
+
+//burada useefecet Yaparak cikisida koontrol ederiy
+//icerdeki elemani kontrol icin bir degisken atariz
+//yukarida user tanimlariz
+//burada dokuman abak ona gore zyazdik
+//mevcut olani yakalamak ivicn bu foksiyon genelde boyle yailir 
+
+useEffect(()=>{
+    const onsub = onAuthStateChanged(auth,(currentuser)=>{
+        console.log(currentuser)
+        setUser(currentuser)
+
+    })
+    return () =>{
+        onsub()
+    }
+
+})
+
+
+
+
     return(
-        <UserContext.Provider value={{createUser}}>
+        <UserContext.Provider value={{createUser,user,logout }}>
         {children}
         </UserContext.Provider>
     )
